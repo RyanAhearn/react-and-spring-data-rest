@@ -3,6 +3,9 @@ package com.example.payroll;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Employee {
@@ -14,6 +17,10 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String description;
+
+    @Version
+    @JsonIgnore
+    private Long version;
 
     private Employee() {}
 
@@ -54,5 +61,13 @@ public class Employee {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void SetVersion(Long version) {
+        this.version = version;
+    }
+
+    public Long getVersion() {
+        return version;
     }
 }
