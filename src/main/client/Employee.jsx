@@ -29,9 +29,9 @@ export default class Employee extends Component {
 	render() {
 		return (
 			<TableRow>
-				<TableCell>{ this.props.employee.firstName }</TableCell>
-				<TableCell>{ this.props.employee.lastName }</TableCell>
-				<TableCell>{ this.props.employee.description }</TableCell>
+				<TableCell>{ this.props.employee.entity.firstName }</TableCell>
+				<TableCell>{ this.props.employee.entity.lastName }</TableCell>
+				<TableCell>{ this.props.employee.entity.description }</TableCell>
 				<TableCell>
 					<IconButton onClick={this.handleDelete} aria-label='Delete'>
 						<DeleteIcon />

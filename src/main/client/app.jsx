@@ -36,13 +36,24 @@ class App extends Component {
                 return employeeCollection;
             });
         }).then(employeeCollection => {
+            this.links = employeeCollection.entity._links;
+            this.page = employeeCollection.entity.page;
+            return employeeCollection.entity._embedded.employees.map(employee => {
+                return client({
+                    method: 'GET',
+                    path: employee._links.self.href
+                });
+            });
+        }).then(employeePromises => {
+            return Promise.all(employeePromises);
+        }).then(employees => {
             this.setState({
-                employees: employeeCollection.entity._embedded.employees,
+                employees: employees,
                 attributes: Object.keys(this.schema.properties),
                 pageSize: pageSize,
-                links: employeeCollection.entity._links,
-                count: employeeCollection.entity.page.totalElements,
-                page: employeeCollection.entity.page.number
+                links: this.links,
+                count: this.page.totalElements,
+                page: this.page.number
             });
         });
     }
@@ -70,13 +81,24 @@ class App extends Component {
 
     onNavigate = navUri => {
         client({ method: 'GET', path: navUri }).then(employeeCollection => {
+            this.links = employeeCollection.entity._links;
+            this.page = employeeCollection.entity.page;
+            return employeeCollection.entity._embedded.employees.map(employee => {
+                return client({
+                    method: 'GET',
+                    path: employee._links.self.href
+                });
+            });
+        }).then(employeePromises => {
+            return Promise.all(employeePromises);
+        }).then(employees => {
             this.setState({
-                employees: employeeCollection.entity._embedded.employees,
-                attributes: this.state.attributes,
+                employees: employees,
+                attributes: Object.keys(this.schema.properties),
                 pageSize: this.state.pageSize,
-                links: employeeCollection.entity._links,
-                count: employeeCollection.entity.page.totalElements,
-                page: employeeCollection.entity.page.number
+                links: this.links,
+                count: this.page.totalElements,
+                page: this.page.number
             });
         });
     }
@@ -89,7 +111,7 @@ class App extends Component {
     onDelete = employee => {
         client({
             method: 'DELETE',
-            path: employee._links.self.href
+            path: employee.entity._links.self.href
         }).then(response => {
             this.loadFromServer(this.state.pageSize);
         })
