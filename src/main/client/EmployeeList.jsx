@@ -41,7 +41,13 @@ class EmployeeList extends Component {
 
     render() {
         const employees = this.props.employees.map(employee =>
-            <Employee key={employee.entity._links.self.href} employee={employee} onDelete={this.props.onDelete} />
+            <Employee 
+                key={employee.entity._links.self.href} 
+                employee={employee}
+                attributes={this.props.attributes} 
+                onDelete={this.props.onDelete} 
+                onUpdate={this.props.onUpdate}
+            />
         );
         const { classes } = this.props;
         return (

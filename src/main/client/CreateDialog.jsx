@@ -37,9 +37,7 @@ export default class CreateDialog extends Component {
             change[attribute] = '';
         });
 
-        this.setState({ newEmployee: change });
-
-        this.setState({ open: false });
+        this.setState({ open: false, newEmployee: change });
     }
 
     handleChange = e => {

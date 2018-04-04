@@ -117,6 +117,24 @@ class App extends Component {
         })
     }
 
+    onUpdate = (employee, updatedEmployee) => {
+        client({
+            method: 'PUT',
+            path: employee.entity._links.self.href,
+            entity: updatedEmployee,
+            headers: {
+                'Content-Type': 'application/json',
+                'If-Match': employee.headers.Etag
+            }
+        }).then(response => {
+            this.loadFromServer(this.state.pageSize);
+        }, error => {
+            if (error.status.code === 412) {
+                alert('Unable to update. Your copy is stale.');
+            }
+        });
+    }
+
     componentDidMount() {
         this.loadFromServer(this.state.pageSize);
     }
@@ -137,6 +155,8 @@ class App extends Component {
                     pageSize={this.state.pageSize} 
                     count={this.state.count}
                     page={this.state.page}
+                    attributes={this.state.attributes}
+                    onUpdate={this.onUpdate}
                 />
             </div>
         );
