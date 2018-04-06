@@ -7,6 +7,7 @@ import EmployeeList from './EmployeeList';
 import Employee from './Employee';
 import NavBar from './NavBar';
 import CreateDialog from './CreateDialog';
+import stompClient from './websocket-listener';
 
 const root = '/api';
 
@@ -66,16 +67,6 @@ class App extends Component {
                 entity: newEmployee,
                 headers: { 'Content-Type': 'application/json' }
             })
-        }).then(response => {
-            return follow(client, root, [
-                { rel: 'employees', params: { size: this.state.pageSize } }
-            ]);
-        }).then(response => {
-            if (typeof response.entity._links.last != 'undefined') {
-                this.onNavigate(response.entity._links.last.href);
-            } else {
-                this.onNavigate(response.entity._links.self.href);
-            }
         });
     }
 
@@ -112,9 +103,7 @@ class App extends Component {
         client({
             method: 'DELETE',
             path: employee.entity._links.self.href
-        }).then(response => {
-            this.loadFromServer(this.state.pageSize);
-        })
+        });
     }
 
     onUpdate = (employee, updatedEmployee) => {
@@ -126,17 +115,61 @@ class App extends Component {
                 'Content-Type': 'application/json',
                 'If-Match': employee.headers.Etag
             }
-        }).then(response => {
-            this.loadFromServer(this.state.pageSize);
-        }, error => {
-            if (error.status.code === 412) {
-                alert('Unable to update. Your copy is stale.');
+        });
+    }
+
+    refreshAndGoToLastPage = (message) => {
+        follow(client, root, [{
+            rel: 'employees',
+            params: {
+                size: this.state.pageSize
             }
+        }]).then(response => {
+            if (response.entity._links.last !== undefined) {
+                this.onNavigate(response.entity._links.last.href);
+            } else {
+                this.onNavigate(response.entity._links.self.href);
+            }
+        })
+    }
+
+    refreshCurrentPage = (message) => {
+        follow(client, root, [{
+            rel: 'employees',
+            params: {
+                size: this.state.size,
+                page: this.state.page
+            }
+        }]).then(employeeCollection => {
+            this.links = employeeCollection.entity._links;
+            this.page = employeeCollection.entity.page;
+            return employeeCollection.entity._embedded.employees.map(employee => {
+                return client({
+                    method: 'GET',
+                    path: employee._links.self.href
+                });
+            });
+        }).then(employeePromises => {
+            return Promise.all(employeePromises);
+        }).then(employees => {
+            this.setState({
+                employees: employees,
+                attributes: Object.keys(this.schema.properties),
+                pageSize: this.state.pageSize,
+                links: this.links,
+                count: this.page.totalElements,
+                page: this.page.number
+            });
         });
     }
 
     componentDidMount() {
         this.loadFromServer(this.state.pageSize);
+        stompClient([
+            { route: '/topic/newEmployee', callback: this.refreshAndGoToLastPage },
+            { route: '/topic/updateEmployee', callback: this.refreshCurrentPage },
+            { route: '/topic/deleteEmployee', callback: this.refreshCurrentPage }
+        ]);
     }
 
     render() {
@@ -145,14 +178,14 @@ class App extends Component {
                 <NavBar>
                     <CreateDialog attributes={this.state.attributes} onCreate={this.onCreate} />
                 </NavBar>
-                <EmployeeList 
-                    employees={this.state.employees} 
-                    onChangePageSize={this.onChangePageSize} 
+                <EmployeeList
+                    employees={this.state.employees}
+                    onChangePageSize={this.onChangePageSize}
                     onNavigate={this.onNavigate}
                     onChangePageSize={this.onChangePageSize}
                     onDelete={this.onDelete}
                     links={this.state.links}
-                    pageSize={this.state.pageSize} 
+                    pageSize={this.state.pageSize}
                     count={this.state.count}
                     page={this.state.page}
                     attributes={this.state.attributes}
