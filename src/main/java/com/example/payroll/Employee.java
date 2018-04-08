@@ -3,6 +3,7 @@ package com.example.payroll;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,13 +23,17 @@ public class Employee {
     @JsonIgnore
     private Long version;
 
+    @ManyToOne
+    private Manager manager;
+
     private Employee() {}
 
-    public Employee(String firstName, String lastName, String description) {
+    public Employee(String firstName, String lastName, String description, Manager manager) {
         this();
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
+        this.manager = manager;
     }
 
     public Long getId() {
@@ -69,5 +74,13 @@ public class Employee {
 
     public Long getVersion() {
         return version;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 }
