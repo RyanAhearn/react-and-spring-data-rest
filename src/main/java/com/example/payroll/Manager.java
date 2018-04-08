@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Entity
 public class Manager {
 
-    private static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
+    protected static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     @Id
     @GeneratedValue
@@ -22,7 +22,7 @@ public class Manager {
 
     @JsonIgnore
     private String password;
-    
+
     private String[] roles;
 
     protected Manager() {}
