@@ -50,7 +50,11 @@ class App extends Component {
         }).then(employees => {
             this.setState({
                 employees: employees,
-                attributes: Object.keys(this.schema.properties),
+                attributes: Object.keys(this.schema.properties).filter(property => {
+                    return !(this.schema.properties[property].hasOwnProperty('format') &&
+                            this.schema.properties[property].format === 'uri' ||
+                            this.schema.properties[property].hasOwnProperty('$ref'));    
+                }),
                 pageSize: pageSize,
                 links: this.links,
                 count: this.page.totalElements,
@@ -66,7 +70,7 @@ class App extends Component {
                 path: employeeCollection.entity._links.self.href,
                 entity: newEmployee,
                 headers: { 'Content-Type': 'application/json' }
-            })
+            });
         });
     }
 
@@ -85,7 +89,11 @@ class App extends Component {
         }).then(employees => {
             this.setState({
                 employees: employees,
-                attributes: Object.keys(this.schema.properties),
+                attributes: Object.keys(this.schema.properties).filter(property => {
+                    return !(this.schema.properties[property].hasOwnProperty('format') &&
+                            this.schema.properties[property].format === 'uri' ||
+                            this.schema.properties[property].hasOwnProperty('$ref'));    
+                }),
                 pageSize: this.state.pageSize,
                 links: this.links,
                 count: this.page.totalElements,

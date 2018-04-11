@@ -34,6 +34,7 @@ export default class Employee extends Component {
 				<TableCell>{this.props.employee.entity.firstName}</TableCell>
 				<TableCell>{this.props.employee.entity.lastName}</TableCell>
 				<TableCell>{this.props.employee.entity.description}</TableCell>
+				<TableCell>{this.props.employee.entity.manager.name}</TableCell>
 				<TableCell>
 
 					<IconButton onClick={this.handleDelete} aria-label='Delete'>

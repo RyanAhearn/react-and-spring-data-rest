@@ -58,6 +58,7 @@ class EmployeeList extends Component {
                             <TableCell>First Name</TableCell>
                             <TableCell>Last Name</TableCell>
                             <TableCell>Description</TableCell>
+                            <TableCell>Manager</TableCell>
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
