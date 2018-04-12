@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Button from 'material-ui/Button';
 
 import client from './client';
 import follow from './follow';
@@ -187,6 +188,14 @@ class App extends Component {
         });
     }
 
+    logout = e => {
+        e.preventDefault();
+        client({
+            method: 'POST',
+            path: '/logout'
+        });
+    }
+
     componentDidMount() {
         this.loadFromServer(this.state.pageSize);
         stompClient([
@@ -201,6 +210,9 @@ class App extends Component {
             <div>
                 <NavBar>
                     <CreateDialog attributes={this.state.attributes} onCreate={this.onCreate} />
+                    <form action="/logout" method="post">
+                        <Button color='inherit' type='submit'>Logout</Button>
+                    </form>
                 </NavBar>
                 <EmployeeList
                     employees={this.state.employees}
