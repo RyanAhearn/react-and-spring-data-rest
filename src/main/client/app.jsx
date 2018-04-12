@@ -90,6 +90,7 @@ class App extends Component {
             this.setState({
                 employees: employees,
                 attributes: Object.keys(this.schema.properties).filter(property => {
+                    console.log(this.schema.properties[property]);
                     return !(this.schema.properties[property].hasOwnProperty('format') &&
                             this.schema.properties[property].format === 'uri' ||
                             this.schema.properties[property].hasOwnProperty('$ref'));    
@@ -111,6 +112,10 @@ class App extends Component {
         client({
             method: 'DELETE',
             path: employee.entity._links.self.href
+        }).catch(error => {
+            if (error.status.code === 403) {
+                alert('ACCESS DENIED: You are not authorized to delete that employee');
+            }
         });
     }
 
@@ -122,6 +127,13 @@ class App extends Component {
             headers: {
                 'Content-Type': 'application/json',
                 'If-Match': employee.headers.Etag
+            }
+        }).catch(error => {
+            if (error.status.code === 403) {
+                alert('ACCESS DENIED: You are not authorized to update that employee');
+            }
+            if (error.status.code === 412) {
+                alert('Unable to update employee.  Your copy is stale.');
             }
         });
     }
@@ -162,7 +174,11 @@ class App extends Component {
         }).then(employees => {
             this.setState({
                 employees: employees,
-                attributes: Object.keys(this.schema.properties),
+                attributes: Object.keys(this.schema.properties).filter(property => {
+                    return !(this.schema.properties[property].hasOwnProperty('format') &&
+                            this.schema.properties[property].format === 'uri' ||
+                            this.schema.properties[property].hasOwnProperty('$ref'));    
+                }),
                 pageSize: this.state.pageSize,
                 links: this.links,
                 count: this.page.totalElements,

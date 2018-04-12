@@ -31,6 +31,8 @@ class UpdateDialog extends Component {
         this.props.attributes.forEach(attribute => {
             this.state.updatedEmployee[attribute] = this.props.employee.entity[attribute];
         });
+
+        this.state.updatedEmployee.manager = this.props.employee.entity.manager;
     }
 
     handleSubmit = e => {

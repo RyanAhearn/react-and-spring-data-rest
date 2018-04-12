@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
 
     @Override
-    @PreAuthorize("#employee?.manager == null or #employee?.manager?.name == authentication?.name")
+    @PreAuthorize("#employee?.manager?.name == authentication?.name")
     <S extends Employee> S save(@Param("employee") S employee);
 
     @Override
