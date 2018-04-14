@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Button from 'material-ui/Button';
 
 import client from './client';
@@ -9,6 +10,7 @@ import Employee from './Employee';
 import NavBar from './NavBar';
 import CreateDialog from './CreateDialog';
 import stompClient from './websocket-listener';
+import Login from './Login';
 
 const root = '/api';
 
@@ -233,4 +235,11 @@ class App extends Component {
 }
 
 
-ReactDOM.render(<App />, document.getElementById('react'));
+ReactDOM.render((
+    <BrowserRouter>
+        <Switch>
+            <Route exact path='/' component={App} />
+            <Route path='/login' component={Login} />
+        </Switch>
+    </BrowserRouter>
+), document.getElementById('react'));
