@@ -1,17 +1,10 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
-import { withStyles } from 'material-ui/styles';
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
 import EditIcon from 'material-ui-icons/Edit';
+import Button from 'material-ui/Button';
+import Dialog, { DialogActions, DialogTitle } from 'material-ui/Dialog';
+import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
+import { withStyles } from 'material-ui/styles';
+import React, { Component } from 'react';
 
 const styles = theme => ({
     button: {

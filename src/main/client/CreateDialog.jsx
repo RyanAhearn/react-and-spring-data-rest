@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import Button from 'material-ui/Button';
+import Dialog, { DialogActions, DialogTitle } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
+import React, { Component } from 'react';
 
 export default class CreateDialog extends Component {
 

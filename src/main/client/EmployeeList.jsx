@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
-import Table, { TableBody, TableCell, TableHead, TableRow, TableFooter, TablePagination, TableRowColumn } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
-
+import Table, { TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow } from 'material-ui/Table';
+import { withStyles } from 'material-ui/styles';
+import React, { Component } from 'react';
 
 import Employee from './Employee';
 import TablePaginationActions from './TablePaginationActions';
+
+
 
 const styles = theme => ({
     root: {

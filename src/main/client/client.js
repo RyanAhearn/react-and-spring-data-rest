@@ -1,12 +1,13 @@
 import rest from 'rest';
 import defaultRequest from 'rest/interceptor/defaultRequest';
-import mime from 'rest/interceptor/mime';
 import errorCode from 'rest/interceptor/errorCode';
+import mime from 'rest/interceptor/mime';
+import uriTemplateInterceptor from 'rest/interceptor/template';
 import baseRegistry from 'rest/mime/registry';
 import hal from 'rest/mime/type/application/hal';
-import uriTemplateInterceptor from 'rest/interceptor/template';
 
 import uriListConverter from './api/uriListConverter';
+
 
 let registry = baseRegistry.child();
 

@@ -1,16 +1,16 @@
+import Button from 'material-ui/Button';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Button from 'material-ui/Button';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import CreateDialog from './CreateDialog';
+import EmployeeList from './EmployeeList';
+import Login from './Login';
+import NavBar from './NavBar';
 import client from './client';
 import follow from './follow';
-import EmployeeList from './EmployeeList';
-import Employee from './Employee';
-import NavBar from './NavBar';
-import CreateDialog from './CreateDialog';
 import stompClient from './websocket-listener';
-import Login from './Login';
+
 
 const root = '/api';
 

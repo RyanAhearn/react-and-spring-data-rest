@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
+import classNames from 'classnames';
+import Button from 'material-ui/Button';
 import { FormControl } from 'material-ui/Form';
 import Input, { InputLabel } from 'material-ui/Input';
-import Button from 'material-ui/Button';
-import classNames from 'classnames';
+import Paper from 'material-ui/Paper';
+import { withStyles } from 'material-ui/styles';
+import React from 'react';
 
 const styles = theme => ({
     root: theme.mixins.gutters({

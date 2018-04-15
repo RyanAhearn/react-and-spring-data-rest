@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
-import { TableRow, TableCell } from 'material-ui/Table'
-import Icon from 'material-ui/Icon';
-import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-
+import IconButton from 'material-ui/IconButton';
+import { TableCell, TableRow } from 'material-ui/Table';
+import React, { Component } from 'react';
 import UpdateDialog from './UpdateDialog';
+
 
 const styles = theme => ({
 	root: {
