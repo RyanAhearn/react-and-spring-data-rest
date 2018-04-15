@@ -17,13 +17,14 @@ const styles = theme => ({
     }),
     margin: {
         margin: 'auto',
-        width: '80%',
+        width: '90%',
     },
     textField: {
         flexBasis: 200,
     },
     button: {
         float: 'right',
+        margin: theme.spacing.unit,
     },
 });
 

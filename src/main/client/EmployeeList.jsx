@@ -68,7 +68,7 @@ class EmployeeList extends Component {
                     <TableFooter>
                         <TableRow>
                             <TablePagination
-                                colSpan={4}
+                                colSpan={5}
                                 count={this.props.count}
                                 rowsPerPage={this.props.pageSize}
                                 page={this.props.page}
